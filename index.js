@@ -7,7 +7,6 @@ const Keyboard = {
 
     eventHandlers: {
         oninput: null,
-        onclose: null
     },
 
     properties: {
@@ -18,14 +17,16 @@ const Keyboard = {
     init() {
         this.elements.main = document.createElement("div");
         this.elements.keysContainer = document.createElement("div");
-        this.elements.main.classList.add("keyboard", "keyboard--hidden");
+        this.elements.main.classList.add("keyboard");
         this.elements.keysContainer.classList.add("keyboard__keys");
         this.elements.keysContainer.appendChild(this._createKeys());
         this.elements.keys = this.elements.keysContainer.querySelectorAll(".keyboard__key");
         this.elements.main.appendChild(this.elements.keysContainer);
         document.body.appendChild(this.elements.main);
+
         document.querySelectorAll(".use-keyboard-input").forEach(element => {
             element.addEventListener("focus", () => {
+                activeTexteria();
                 this.open(element.value, currentValue => {
                     element.value = currentValue;
                 });
@@ -39,7 +40,7 @@ const Keyboard = {
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
             "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
             "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
-            "done", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?",
+            "z", "x", "c", "v", "b", "n", "m", ",", ".", "?",
             "space"
         ];
         const createIconHTML = (icon_name) => {
@@ -50,6 +51,7 @@ const Keyboard = {
             const keyElement = document.createElement("button");
             const insertLineBreak = ["backspace", "p", "enter", "?"].indexOf(key) !== -1;
             keyElement.setAttribute("type", "button");
+            keyElement.setAttribute("data-key", `${key}`);
             keyElement.classList.add("keyboard__key");
 
             switch (key) {
@@ -97,17 +99,6 @@ const Keyboard = {
 
                     break;
 
-                case "done":
-                    keyElement.classList.add("keyboard__key--wide", "keyboard__key--dark");
-                    keyElement.innerHTML = createIconHTML("check_circle");
-
-                    keyElement.addEventListener("click", () => {
-                        this.close();
-                        this._triggerEvent("onclose");
-                    });
-
-                    break;
-
                 default:
                     keyElement.textContent = key.toLowerCase();
 
@@ -145,21 +136,28 @@ const Keyboard = {
         }
     },
 
-    open(initialValue, oninput, onclose) {
+    open(initialValue, oninput) {
         this.properties.value = initialValue || "";
         this.eventHandlers.oninput = oninput;
-        this.eventHandlers.onclose = onclose;
-        this.elements.main.classList.remove("keyboard--hidden");
     },
-
-    close() {
-        this.properties.value = "";
-        this.eventHandlers.oninput = oninput;
-        this.eventHandlers.onclose = onclose;
-        this.elements.main.classList.add("keyboard--hidden");
-    }
 };
 
+document.addEventListener('keydown', function(){
+    activeTexteria();
+    console.log('Key: ', event.key);
+    const currentButton = document.querySelector((`[data-key=${event.key}]`));
+    currentButton.classList.add("active");
+    setTimeout(() => currentButton.classList.remove("active"), 400);
+});
+
+function activeTexteria (){
+    const inputKey = document.querySelector(".use-keyboard-input");
+    inputKey.focus();
+}
+
+
+// Creating keyboard
 window.addEventListener("DOMContentLoaded", function () {
     Keyboard.init();
+    activeTexteria();
 });
