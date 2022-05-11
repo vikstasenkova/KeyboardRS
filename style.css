@@ -1,3 +1,18 @@
+body{
+    background-color: azure;
+}
+
+.use-keyboard-input {
+    background: #0000000e;
+    text-align: center;
+    border:  #b5fbff;
+    border-radius: 5%;
+    margin: 0 auto;
+    width: 40%;
+    height: 300px;
+    margin-left: 30%;
+}
+
 .keyboard {
     position: fixed;
     left: 0;
@@ -39,7 +54,7 @@
     background: rgba(255, 255, 255, 0.041);
     transition: all 0.5s ease;
 }
-.keyboard__key:hover{
+.keyboard__key:hover, .keyboard__key--active{
     background: rgba(31, 209, 75, 0.12);
     transition: all 0.5s ease;
 }
@@ -62,10 +77,6 @@
     height: 8px;
     background: rgba(0, 0, 0, 0.4);
     border-radius: 50%;
-}
-
-.keyboard__key--active::after {
-    background: #c300ff;
 }
 
 .keyboard__key--dark {

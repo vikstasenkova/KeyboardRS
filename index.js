@@ -39,7 +39,7 @@ const Keyboard = {
         const keyLayout = [
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
             "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
-            "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
+            "capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
             "z", "x", "c", "v", "b", "n", "m", ",", ".", "?",
             "space"
         ];
@@ -51,7 +51,7 @@ const Keyboard = {
             const keyElement = document.createElement("button");
             const insertLineBreak = ["backspace", "p", "enter", "?"].indexOf(key) !== -1;
             keyElement.setAttribute("type", "button");
-            keyElement.setAttribute("data-key", `${key}`);
+            keyElement.setAttribute("data-key", `k${key}`);
             keyElement.classList.add("keyboard__key");
 
             switch (key) {
@@ -66,15 +66,20 @@ const Keyboard = {
 
                     break;
 
-                case "caps":
+                case "capslock":
                     keyElement.classList.add("keyboard__key--wide", "keyboard__key--activatable");
                     keyElement.innerHTML = createIconHTML("keyboard_capslock");
+
+                    console.log(keyElement);
+                    keyElement.addEventListener("keypress", () =>{
+                        console.log("dfgdgdgdg");
+                    })
 
                     keyElement.addEventListener("click", () => {
                         this._toggleCapsLock();
                         keyElement.classList.toggle("keyboard__key--active", this.properties.capsLock);
                     });
-
+                    
                     break;
 
                 case "enter":
@@ -128,7 +133,6 @@ const Keyboard = {
 
     _toggleCapsLock() {
         this.properties.capsLock = !this.properties.capsLock;
-
         for (const key of this.elements.keys) {
             if (key.childElementCount === 0) {
                 key.textContent = this.properties.capsLock ? key.textContent.toUpperCase() : key.textContent.toLowerCase();
@@ -140,12 +144,16 @@ const Keyboard = {
         this.properties.value = initialValue || "";
         this.eventHandlers.oninput = oninput;
     },
+
+
 };
 
 document.addEventListener('keydown', function(){
     activeTexteria();
-    console.log('Key: ', event.key);
-    const currentButton = document.querySelector((`[data-key=${event.key}]`));
+    let currentButton = document.querySelector((`[data-key= K${event.key}]`).toLowerCase());
+    if(!currentButton){
+        currentButton = document.querySelector((`[data-key= kspace]`).toLowerCase());
+    }
     currentButton.classList.add("active");
     setTimeout(() => currentButton.classList.remove("active"), 400);
 });
