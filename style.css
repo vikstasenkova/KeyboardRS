@@ -2,6 +2,10 @@ body{
     background-color: azure;
 }
 
+h5, h6{
+    text-align: center;
+}
+
 .use-keyboard-input {
     background: #0000000e;
     text-align: center;
@@ -11,6 +15,7 @@ body{
     width: 40%;
     height: 300px;
     margin-left: 30%;
+    margin-top: 2%;
 }
 
 .keyboard {
@@ -20,7 +25,7 @@ body{
     width: 100%;
     padding: 5px 0;
     background: #ffe46b;
-    box-shadow: 0 0 50px rgba(255, 174, 0, 0.548);
+    box-shadow: 0 0 50px rgba(167, 160, 147, 0.548);
     user-select: none;
     transition: bottom 0.4s;
 }
